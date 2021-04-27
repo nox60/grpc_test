@@ -3,7 +3,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 	"log"
@@ -44,7 +43,6 @@ func main() {
 		defer cancel()
 
 		word := c1.Param("word")
-		fmt.Println(word)
 		resp := clientSendMsg(word, ctx, c)
 
 		c1.JSON(200, gin.H{
