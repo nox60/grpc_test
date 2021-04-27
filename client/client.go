@@ -1,59 +1,55 @@
+// Package main implements a client for Greeter service.
 package main
 
 import (
 	"context"
-	"fmt"
 	"google.golang.org/grpc"
-	pb "helloworld/helloworld"
-	"io"
+	"log"
+	pb "message/message"
 	"time"
 )
 
+const (
+	address     = "localhost:50051"
+	defaultName = "world"
+)
+
 func main() {
-	conn, e := grpc.Dial("localhost:6001", grpc.WithInsecure())
-	if e != nil {
-		fmt.Println(e.Error())
-		return
+	// Set up a connection to the server.
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewHelloServiceClient(conn)
-	// say hello
-	r, e := c.SayHello(context.Background(), &pb.HelloRequest{Username: "eeeeeee"})
-	if e != nil {
-		fmt.Println(e.Error())
-		return
-	}
-	fmt.Println(r.Message)
+	// c := pb.NewGreeterClient(conn)
+	c := pb.NewMsgServiceClient(conn)
 
-	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	// chat
-	chatClilent, e := c.Chat(context.Background())
-	if e != nil {
-		fmt.Println(e.Error())
-		return
-	}
-	go func() {
-		for {
-			stream, e := chatClilent.Recv()
-			if e == io.EOF {
-				fmt.Println("EOF")
-				return
-			}
-			if e != nil {
-				// fmt.Println(errorx.Wrap(e).Error())
-				return
-			}
-			fmt.Println("receive from server:", stream.Stream)
-		}
-	}()
-	chatClilent.Send(&pb.ClientStream{
-		Stream: newBytes(10, 9, 8, 7),
-	})
-	select {
-	case <-time.After(20 * time.Second):
-	}
+	// Contact the server and print out its response.
+	//name := defaultName
+	//if len(os.Args) > 1 {
+	//	name = os.Args[1]
+	//}
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	//r, err := c.SayHello(ctx, &pb.HelloRequest{Username: name})
+	//if err != nil {
+	//	log.Fatalf("could not greet: %v", err)
+	//}
+	//log.Printf("Greeting: %s", r.GetMessage())
+
+	clientSendMsg("eee", ctx, c)
+	clientSendMsg("asdfasfd", ctx, c)
+	clientSendMsg("24234", ctx, c)
+	clientSendMsg("asdf2", ctx, c)
+	clientSendMsg("qer", ctx, c)
 }
 
-func newBytes(a ...byte) []byte {
-	return a
+func clientSendMsg(stringPars string, ctx context.Context, c pb.MsgServiceClient) (response string) {
+	r, err := c.SendMsg(ctx, &pb.MsgRequest{Username: stringPars})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetMessage())
+	return ""
 }
