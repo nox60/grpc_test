@@ -39,6 +39,10 @@ func main() {
 	//log.Printf("Greeting: %s", r.GetMessage())
 
 	clientSendMsg("eee", ctx, c)
+	clientSendMsg("asdfasfd", ctx, c)
+	clientSendMsg("24234", ctx, c)
+	clientSendMsg("asdf2", ctx, c)
+	clientSendMsg("qer", ctx, c)
 }
 
 func clientSendMsg(stringPars string, ctx context.Context, c pb.HelloServiceClient) (response string) {
