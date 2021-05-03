@@ -595,34 +595,3 @@ func (*UnimplementedMsgServiceServer) SendMsg(context.Context, *MsgRequest) (*Ms
 func RegisterMsgServiceServer(s *grpc.Server, srv MsgServiceServer) {
 	s.RegisterService(&_MsgService_serviceDesc, srv)
 }
-
-func _MsgService_SendMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServiceServer).SendMsg(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.grpcserver.server.MsgService/SendMsg",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServiceServer).SendMsg(ctx, req.(*MsgRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _MsgService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "com.grpcserver.server.MsgService",
-	HandlerType: (*MsgServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "SendMsg",
-			Handler:    _MsgService_SendMsg_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "message.proto",
-}
