@@ -546,22 +546,3 @@ func file_message_proto_init() {
 	file_message_proto_goTypes = nil
 	file_message_proto_depIdxs = nil
 }
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConnInterface
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
-
-// MsgServiceClient is the client API for MsgService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type MsgServiceClient interface {
-	SendMsg(ctx context.Context, in *MsgRequest, opts ...grpc.CallOption) (*MsgResponse, error)
-}
-
-type msgServiceClient struct {
-	cc grpc.ClientConnInterface
-}
