@@ -565,33 +565,3 @@ type MsgServiceClient interface {
 type msgServiceClient struct {
 	cc grpc.ClientConnInterface
 }
-
-func NewMsgServiceClient(cc grpc.ClientConnInterface) MsgServiceClient {
-	return &msgServiceClient{cc}
-}
-
-func (c *msgServiceClient) SendMsg(ctx context.Context, in *MsgRequest, opts ...grpc.CallOption) (*MsgResponse, error) {
-	out := new(MsgResponse)
-	err := c.cc.Invoke(ctx, "/com.grpcserver.server.MsgService/SendMsg", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// MsgServiceServer is the server API for MsgService service.
-type MsgServiceServer interface {
-	SendMsg(context.Context, *MsgRequest) (*MsgResponse, error)
-}
-
-// UnimplementedMsgServiceServer can be embedded to have forward compatible implementations.
-type UnimplementedMsgServiceServer struct {
-}
-
-func (*UnimplementedMsgServiceServer) SendMsg(context.Context, *MsgRequest) (*MsgResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendMsg not implemented")
-}
-
-func RegisterMsgServiceServer(s *grpc.Server, srv MsgServiceServer) {
-	s.RegisterService(&_MsgService_serviceDesc, srv)
-}
