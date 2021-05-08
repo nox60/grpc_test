@@ -45,6 +45,10 @@ func main() {
 		word := c1.Param("word")
 		resp := clientSendMsg(word, ctx, c)
 
+		if word == "1" {
+
+		}
+
 		c1.JSON(200, gin.H{
 			"result": "1",
 			"msg":    resp,
