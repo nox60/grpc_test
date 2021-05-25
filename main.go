@@ -36,7 +36,8 @@ func main() {
 
 	api.GET("/index", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title": "Main website",
+			"title":       "Main website",
+			"fileContent": "",
 		})
 	})
 
@@ -51,20 +52,14 @@ func main() {
 			return
 		} else {
 			file, _ := f.Open()
-			fileConent, _ := ioutil.ReadAll(file)
-			fmt.Println(string(fileConent))
-			////将文件保存至本项目根目录中
-			//c.SaveUploadedFile(f, f.Filename)
-			//保存成功返回正确的Json数据
-			//c.JSON(http.StatusOK, gin.H{
-			//	"message": "OK",
-			//	"messageBody": string(fileConent),
-			//})
+			fileContent, _ := ioutil.ReadAll(file)
+			fmt.Println(string(fileContent))
+
 			c.HTML(http.StatusOK, "index.tmpl", gin.H{
-				"title": "Main website",
+				"fileContent": string(fileContent),
+				"title":       "Main website",
 			})
 		}
-
 	})
 
 	api.GET("/send/:word", func(c1 *gin.Context) {
