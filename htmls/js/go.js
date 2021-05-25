@@ -46,11 +46,13 @@ $(function () {
         // });
 
         var _data = {
-            'itemId': $('#itemId').val(),
+            'msgCode': '2',
+            'msgValue': a,
+            'msgBody': contents,
         };
 
         $.ajax({
-            url: '/hotel/item/saveAndEditSubmit',
+            url: '/api/send',
             type: 'POST',
             dataType: 'json',
             contentType: "application/json",
@@ -58,7 +60,7 @@ $(function () {
             success: function (data) {
                 if(data.result==1){
                     alert("保存成功！！！！")
-                    window.location.href='/hotel/item/itemLists/1';
+                    window.location.href='/api/index';
                 }else{
                     if ( data.result == -2 ) {
                         alert('保存出错!')

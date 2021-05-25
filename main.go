@@ -17,6 +17,12 @@ const (
 	address = "localhost:50051"
 )
 
+type MsgObject struct {
+	MsgCode  string `json:"msgCode"  binding:"required"`
+	MsgValue string `json:"msgValue"  binding:"required"`
+	MsgBody  string `json:"msgBody" binding:"required"`
+}
+
 func main() {
 	r := gin.Default()
 
@@ -86,7 +92,7 @@ func main() {
 		})
 	})
 
-	api.POST("/send/:msg", func(c1 *gin.Context) {
+	api.POST("/send", func(c1 *gin.Context) {
 		conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			log.Fatalf("did not connect: %v", err)
@@ -96,12 +102,18 @@ func main() {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 
-		word := c1.Param("word")
-		resp := clientSendMsg(word, "", "", ctx, c)
+		var msgObject MsgObject
 
-		if word == "1" {
-
+		if err := c1.ShouldBindJSON(&msgObject); err != nil {
+			fmt.Println(err)
+			c1.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
+
+		//		word := c1.Param("word")
+		resp := clientSendMsg(msgObject.MsgCode, msgObject.MsgValue, msgObject.MsgBody, ctx, c)
+
+		fmt.Println("just for version2...")
 
 		c1.JSON(200, gin.H{
 			"result": "1",
