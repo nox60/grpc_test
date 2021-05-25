@@ -2,6 +2,8 @@ $(function () {
     $('.first_btn').click(function () {
         var contents = $('#words').val();
 
+        console.log(contents)
+
         if( contents ===  ''){
             alert('没有输入内容！清重新输入');
             return
@@ -25,22 +27,49 @@ $(function () {
 
         var sendValue = a + "|||" + $('#words').val();
 
+        // $.ajax({
+        //     url:'/api/send/'+sendValue,
+        //     type:'GET',
+        //     dataType:'json',
+        //     contentType:"application/json",
+        //     success:function(data){
+        //         if( data.result == -990) {
+        //             alert('error！');
+        //         } else {
+        //             // alert(data.msg);
+        //             if( data.msg === 'refresh'){
+        //                 console.log('刷新界面')
+        //                 window.location.href='/api/index';
+        //             }
+        //         }
+        //     }
+        // });
+
+        var _data = {
+            'itemId': $('#itemId').val(),
+        };
+
         $.ajax({
-            url:'/api/send/'+sendValue,
-            type:'GET',
-            dataType:'json',
-            contentType:"application/json",
-            success:function(data){
-                if( data.result == -990) {
-                    alert('error！');
-                } else {
-                    // alert(data.msg);
-                    if( data.msg === 'refresh'){
-                        console.log('刷新界面')
-                        window.location.href='/htmls/';
+            url: '/hotel/item/saveAndEditSubmit',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify(_data),
+            success: function (data) {
+                if(data.result==1){
+                    alert("保存成功！！！！")
+                    window.location.href='/hotel/item/itemLists/1';
+                }else{
+                    if ( data.result == -2 ) {
+                        alert('保存出错!')
+                    } else if (data.result == -989) {
+                        alert('同编号的房间已经存在，请重新输入！')
+                    } else {
+                        alert(data.result)
                     }
                 }
             }
         });
+
     })
 })

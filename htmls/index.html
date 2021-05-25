@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Login</title>
+    <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -54,14 +54,15 @@
 
     <div class="form-group">
         <label for="words">直接输入文字</label>
-        <input type="text" class="form-control" id="words" placeholder="输入文字" name="userName"/>
+<!--        <input type="text" class="form-control" id="words" placeholder="输入文字" name="userName"/>-->
+        <textarea class="form-control" id="words" placeholder="输入文字" name="userName" rows="3"></textarea>
     </div>
 
 <!--    <div id="login_btn" class="first_btn btn btn-default">写入</div>-->
 
     <br/><br/><br/>
     <div class="form-group">
-        <form action="/uploadfile" method="post" enctype="multipart/form-data">
+        <form action="/api/uploadfile" method="post" enctype="multipart/form-data">
              <label for="inputfile">选择文件文件输入</label>
              <input type="file"  id="inputfile" class="btn btn-default" name="f1">
              <input type="submit"  class="btn btn-default" value="上传">

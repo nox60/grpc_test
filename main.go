@@ -46,18 +46,45 @@ func main() {
 		} else {
 			file, _ := f.Open()
 			fileConent, _ := ioutil.ReadAll(file)
-			fmt.Println(fileConent)
+			fmt.Println(string(fileConent))
 			////将文件保存至本项目根目录中
 			//c.SaveUploadedFile(f, f.Filename)
 			//保存成功返回正确的Json数据
-			c.JSON(http.StatusOK, gin.H{
-				"message": "OK",
+			//c.JSON(http.StatusOK, gin.H{
+			//	"message": "OK",
+			//	"messageBody": string(fileConent),
+			//})
+			c.HTML(http.StatusOK, "index.tmpl", gin.H{
+				"title": "Main website",
 			})
 		}
 
 	})
 
 	api.GET("/send/:word", func(c1 *gin.Context) {
+		conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
+			log.Fatalf("did not connect: %v", err)
+		}
+		defer conn.Close()
+		c := pb.NewMsgServiceClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		word := c1.Param("word")
+		resp := clientSendMsg(word, ctx, c)
+
+		if word == "1" {
+
+		}
+
+		c1.JSON(200, gin.H{
+			"result": "1",
+			"msg":    resp,
+		})
+	})
+
+	api.POST("/send/:msg", func(c1 *gin.Context) {
 		conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			log.Fatalf("did not connect: %v", err)
