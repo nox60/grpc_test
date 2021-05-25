@@ -25,26 +25,6 @@ $(function () {
 
         console.log("输入的文件内容：", $('#words').val())
 
-        var sendValue = a + "|||" + $('#words').val();
-
-        // $.ajax({
-        //     url:'/api/send/'+sendValue,
-        //     type:'GET',
-        //     dataType:'json',
-        //     contentType:"application/json",
-        //     success:function(data){
-        //         if( data.result == -990) {
-        //             alert('error！');
-        //         } else {
-        //             // alert(data.msg);
-        //             if( data.msg === 'refresh'){
-        //                 console.log('刷新界面')
-        //                 window.location.href='/api/index';
-        //             }
-        //         }
-        //     }
-        // });
-
         var _data = {
             'msgCode': '2',
             'msgValue': a,
