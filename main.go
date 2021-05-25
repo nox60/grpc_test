@@ -78,6 +78,8 @@ func main() {
 
 		}
 
+		fmt.Println("just for version2...")
+
 		c1.JSON(200, gin.H{
 			"result": "1",
 			"msg":    resp,
