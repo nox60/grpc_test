@@ -72,7 +72,7 @@ func main() {
 		defer cancel()
 
 		word := c1.Param("word")
-		resp := clientSendMsg(word, ctx, c)
+		resp := clientSendMsg(word, "", "", ctx, c)
 
 		if word == "1" {
 
@@ -97,7 +97,7 @@ func main() {
 		defer cancel()
 
 		word := c1.Param("word")
-		resp := clientSendMsg(word, ctx, c)
+		resp := clientSendMsg(word, "", "", ctx, c)
 
 		if word == "1" {
 
@@ -112,8 +112,12 @@ func main() {
 	r.Run()
 }
 
-func clientSendMsg(stringPars string, ctx context.Context, c pb.MsgServiceClient) (response string) {
-	r, err := c.SendMsg(ctx, &pb.MsgRequest{Username: stringPars})
+func clientSendMsg(msgCode string, msgValue string, msgBody string, ctx context.Context, c pb.MsgServiceClient) (response string) {
+	msgReq := &pb.MsgRequest{}
+	msgReq.MsgBody = msgBody
+	msgReq.MsgCode = msgCode
+	msgReq.MsgVolue = msgValue
+	r, err := c.SendMsg(ctx, msgReq)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
