@@ -71,6 +71,10 @@ $(function () {
 
     })
 
+    String.prototype.replaceAll  = function(s1,s2){
+        return this.replace(new RegExp(s1,"gm"),s2);
+    }
+
 
     $('.read_btn').click(function () {
         var chainName = $('#chainName').val();
@@ -83,7 +87,7 @@ $(function () {
         var _data = {
             'msgCode': '4',
             'msgValue': chainName,
-            'msgBody': '',
+            'msgBody': 'aa',
         };
 
         $.ajax({
@@ -94,8 +98,13 @@ $(function () {
             data: JSON.stringify(_data),
             success: function (data) {
                 if(data.result==1){
-                    alert("加载成功！！！！")
-                    alert(data.msg)
+
+                    var result = data.msg;
+                    // result = ':test\\n[INFO]'
+                    // result.replace(/[\n\r]/g,'<br/>');
+                   // result = result.replace(/\\n?/g,"<br/>");
+                    $('#showDiv').html(result);
+
                     // window.location.href='/api/index';
                 }else{
                     if ( data.result == -2 ) {
