@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"google.golang.org/grpc"
 	"log"
 	pb "message/message"
@@ -17,12 +16,12 @@ type server struct {
 	pb.UnimplementedMsgServiceServer
 }
 
-// SayHello implements message.GreeterServer
-func (s *server) SendMsg(ctx context.Context, in *pb.MsgRequest) (*pb.MsgResponse, error) {
-	// log.Printf("Received: %v", in.GetName())
-	// println(in.GetUsername())
-	return &pb.MsgResponse{Message: "Hello " + in.GetUsername()}, nil
-}
+//// SayHello implements message.GreeterServer
+//func (s *server) SendMsg(ctx context.Context, in *pb.MsgRequest) (*pb.MsgResponse, error) {
+//	// log.Printf("Received: %v", in.GetName())
+//	// println(in.GetUsername())
+//	return &pb.MsgResponse{Message: "Hello " + in()}, nil
+//}
 
 func main() {
 	lis, err := net.Listen("tcp", port)

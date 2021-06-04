@@ -36,7 +36,14 @@ func main() {
 
 	api.GET("/index", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title":       "Main website",
+			"title":       "操作文件和写入区块链",
+			"fileContent": "",
+		})
+	})
+
+	api.GET("/read", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "read.tmpl", gin.H{
+			"title":       "读取区块链信息",
 			"fileContent": "",
 		})
 	})

@@ -70,4 +70,44 @@ $(function () {
         });
 
     })
+
+
+    $('.read_btn').click(function () {
+        var chainName = $('#chainName').val();
+
+        if( chainName ===  ''){
+            alert('没有输入内容！清重新输入');
+            return
+        }
+
+        var _data = {
+            'msgCode': '4',
+            'msgValue': chainName,
+            'msgBody': '',
+        };
+
+        $.ajax({
+            url: '/api/send',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify(_data),
+            success: function (data) {
+                if(data.result==1){
+                    alert("加载成功！！！！")
+                    alert(data.msg)
+                    // window.location.href='/api/index';
+                }else{
+                    if ( data.result == -2 ) {
+                        alert('保存出错!')
+                    } else if (data.result == -989) {
+                        alert('！')
+                    } else {
+                        alert(data.result)
+                    }
+                }
+            }
+        });
+
+    })
 })
