@@ -12,6 +12,10 @@ $(function () {
         var a = $("input[name='selectedfile']:checked")[0].defaultValue;
         console.log("选中的radio的值是：" + a);
 
+        // 2: 写入文件
+        // 3: 写入区块链
+        var msgCode = '2';
+
         if (a === 'NEWFILE') {
             a = $('#newfilename').val();
             // 如果是新文件，文件名不能为空
@@ -23,10 +27,22 @@ $(function () {
             console.log("选择新文件，文件名：", a)
         }
 
+        if (a === 'BLOCKCHAIN') {
+            msgCode = '3';
+            a = $('#codeName').val();
+            // 如果是新文件，文件名不能为空
+            if( a === '' ){
+                alert('区块链name值不能为空');
+                return
+            }
+
+        }
+
+
         console.log("输入的文件内容：", $('#words').val())
 
         var _data = {
-            'msgCode': '2',
+            'msgCode': msgCode,
             'msgValue': a,
             'msgBody': contents,
         };
@@ -45,7 +61,7 @@ $(function () {
                     if ( data.result == -2 ) {
                         alert('保存出错!')
                     } else if (data.result == -989) {
-                        alert('同编号的房间已经存在，请重新输入！')
+                        alert('！')
                     } else {
                         alert(data.result)
                     }
