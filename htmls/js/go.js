@@ -100,12 +100,16 @@ $(function () {
                 if(data.result==1){
 
                     var result = data.msg;
-                    // result = ':test\\n[INFO]'
-                    // result.replace(/[\n\r]/g,'<br/>');
-                   // result = result.replace(/\\n?/g,"<br/>");
-                    $('#showDiv').html(result);
+                    var jsonObj = JSON.parse(result);
+                    $('#showDiv').html(jsonObj.content);
+                    $('#blockId').html(jsonObj.id);
+                    $('#blockName').html(jsonObj.name);
+                    $('#blockTime').html(jsonObj.type);
+                    $('#txId').html(jsonObj.txId);
+                    $('#endorser').html('org1.peer0.com, org2.peer0.com, org3.peer0.com');
 
-                    // window.location.href='/api/index';
+
+
                 }else{
                     if ( data.result == -2 ) {
                         alert('保存出错!')
